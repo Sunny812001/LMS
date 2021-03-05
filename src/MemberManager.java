@@ -37,7 +37,10 @@ public class MemberManager {
     public boolean init(String Filename){
         boolean result = false;
         this.FileName=Filename;
-        ReadData();
+        if(ReadData()){
+            result=true;
+            ReadData();
+        }
         return result;
     }
     
@@ -98,7 +101,8 @@ public class MemberManager {
         }
     }
 
-    public void ReadData(){
+    public boolean ReadData(){
+        boolean result = false;
         try {
             FileReader reader = new FileReader(FileName);
             BufferedReader bufReader = new BufferedReader(reader);
@@ -107,12 +111,14 @@ public class MemberManager {
                 MemberList.add(readLine(line));
                 line = bufReader.readLine();
             }
+            result = true;
             bufReader.close();
         }catch(FileNotFoundException e){
             System.out.println("Unable to find requested file.");
         }catch (IOException ex) {
            System.out.println("Unable to perform IO operations.");
         }
+        return result;
     }
     
     Member readLine(String line){

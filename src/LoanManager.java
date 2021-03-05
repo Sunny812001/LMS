@@ -44,9 +44,12 @@ public class LoanManager {
     public boolean init(String Filename){
         boolean result = false;
         this.FileName=Filename;
-        readBookData();
-        readMemberData();
-        ReadData();
+        if(readBookData() && readMemberData() && ReadData()){
+            result=true;
+            readBookData();
+            readMemberData();
+            ReadData();
+        }
         return result;
     }
     
@@ -151,7 +154,8 @@ public class LoanManager {
         }
     }
 
-    public void ReadData(){
+    public boolean ReadData(){
+        boolean result=true;
         try {
             FileReader reader = new FileReader(FileName);
             BufferedReader bufReader = new BufferedReader(reader);
@@ -162,12 +166,14 @@ public class LoanManager {
                 LoanList.add(readLine5(line));
                 line = bufReader.readLine();
             }
+            result=true;
             bufReader.close();
         }catch(FileNotFoundException e){
             System.out.println("Unable to find requested file.");
         }catch (IOException ex) {
            System.out.println("Unable to perform IO operations.");
         }
+        return result;
     }
     
     Book readLine3(String line){
@@ -186,7 +192,8 @@ public class LoanManager {
 
     }
     
-    public void readBookData(){
+    public boolean readBookData(){
+        boolean result=true;
        try {
             FileReader read=new FileReader("Book.csv");
             BufferedReader bufRead = new BufferedReader(read);
@@ -195,10 +202,12 @@ public class LoanManager {
                 BookList.add(readLine1(line));
                 line = bufRead.readLine();
             }
+            result=true;
             bufRead.close();
         } catch (IOException ex) {
            System.out.println("Unable to perform IO operations.");
         } 
+       return result;
     }
     
     Book readLine1(String line){
@@ -206,7 +215,8 @@ public class LoanManager {
         return new Book(Integer.parseInt(data[0]), data[1], data[2], data[3], data[4], data[5], data[6], data[7], Integer.parseInt(data[8]));
     }
     
-    public void readMemberData(){
+    public boolean readMemberData(){
+        boolean result=true;
         try {
             FileReader reader=new FileReader("Member.csv");
             BufferedReader bufReader = new BufferedReader(reader);
@@ -215,10 +225,12 @@ public class LoanManager {
                 MemberList.add(readLine2(line));
                 line = bufReader.readLine();
             }
+            result=true;
             bufReader.close();
         } catch (IOException ex) {
            System.out.println("Unable to perform IO operations.");
         }
+        return result;
     }
     
     Member readLine2(String line){
