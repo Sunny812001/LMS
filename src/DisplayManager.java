@@ -33,17 +33,22 @@ public class DisplayManager {
     
     
     public boolean init(){
-        boolean result=false;
+        boolean resultB=false,resultM=false,resultL=false,resultLo=false,resultLi=false,result=false;
         BookMgr = new BookManager();
-        result = BookMgr.init("Book.csv");
+        resultB = BookMgr.init("Book.csv");
         MemberMgr = new MemberManager();
-        result = MemberMgr.init("Member.csv");
+        resultM = MemberMgr.init("Member.csv");
         LibrarianAccountMgr = new LibrarianAccountManager();
-        result = LibrarianAccountMgr.init("Librarian.csv");
+        resultL = LibrarianAccountMgr.init("Librarian.csv");
         LoanMgr = new LoanManager();
-        result = LoanMgr.init("Loan.csv");
+        resultLo = LoanMgr.init("Loan.csv");
         LoginMgr = new LoginManager();
-        result = LoginMgr.init("Librarian.csv");
+        resultLi = LoginMgr.init("Librarian.csv");
+        
+        if(resultB==true && resultM==true && resultL==true && resultLo==true && resultLi==true){
+            result = true;
+        }
+        
         return result;
     }
     //creating screens
@@ -304,9 +309,12 @@ public class DisplayManager {
     
     public static void main(String[] args) {
         DisplayManager Dmgr = new DisplayManager();
-        Dmgr.init();
-        Dmgr.createScreens();
-        Dmgr.ShowScreen10(); 
+        if(Dmgr.init()){
+            Dmgr.createScreens();
+            Dmgr.ShowScreen10();
+        }else{
+            System.out.println("Resource file/files missing");
+        } 
     }
 
 }

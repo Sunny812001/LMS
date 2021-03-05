@@ -57,6 +57,7 @@ public class BookManager {
     
     public boolean StoreBook(Book newBook){
         boolean result = true;
+        System.out.println(newBook);
         this.BookList.add(newBook);
         save();
         return result;
